@@ -3,16 +3,20 @@ defmodule Brokechain do
   Documentation for `Brokechain`.
   """
 
-  @doc """
-  Hello world.
+  @doc "Create a new Blockchain with a zero block"
+  def new do
+    [ Crypto.put_hash(Block.zero) ]
+  end
 
-  ## Examples
+  @doc "Insert given data as a new block in the blockchain"
+  def insert(blockchain, data) when is_list(blockchain) do
+    %Block{hash: prev} = hd(blockchain)
 
-      iex> Brokechain.hello()
-      :world
+    block = 
+      data 
+      |> Block.new(prev)
+      |> Crypto.put_hash
 
-  """
-  def hello do
-    :world
+    [ block | blockchain]
   end
 end
